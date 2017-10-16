@@ -16,8 +16,13 @@ SRC_URI += "\
             file://connmand-watch.sh \
 "
 
+PACKAGECONFIG = "wifi"
+
 do_configure_append() {
 	sed -i -e 's:\$(localstatedir)/lib:${permanentlocalstatedir}/lib:' ${B}/Makefile
+	sed -i -e '/^DAEMON=/s/connmand/connmand-watch.sh/' \
+		-e '/^do_stop/akillall connmand-watch.sh' \
+		${WORKDIR}/connman
 }
 
 do_install_append() {

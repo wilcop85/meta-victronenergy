@@ -36,7 +36,7 @@ RDEPENDS_${PN} += "\
 	ca-certificates \
 	can-utils \
 	connman \
-	connman-tools \
+	connman-client \
 	crda \
 	cronie \
 	curl \
