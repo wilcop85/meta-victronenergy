@@ -7,6 +7,13 @@ case "$1" in
 	if [ "$boot" != "-3" ]; then
 		for log in `ls /log/*/current 2> /dev/null`; do echo "*** CCGX booted ($boot) ***" | tai64n >> $log; done
 	fi
+
+	# remove stale entries
+	find -L /data/service -maxdepth 1 -type l -delete
+
+	# let the enabled services auto-start
+	rm -f /data/service/*/down /data/service/*/log/down
+
 	svscanboot &
 	;;
 'stop')
