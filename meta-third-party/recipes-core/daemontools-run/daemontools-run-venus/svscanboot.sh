@@ -7,7 +7,6 @@ case "$1" in
 	if [ "$boot" != "-3" ]; then
 		for log in `ls /log/*/current 2> /dev/null`; do echo "*** CCGX booted ($boot) ***" | tai64n >> $log; done
 	fi
-	sync
 	svscanboot &
 	;;
 'stop')
