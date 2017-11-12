@@ -15,7 +15,6 @@ RDEPENDS_${PN} = " \
 	python-pygobject \
 "
 
-DAEMONTOOLS_SERVICE_DIR = "${bindir}/service"
 DAEMONTOOLS_RUN = "softlimit -d 100000000 -s 1000000 -a 100000000 ${bindir}/dbus_digitalinputs.py /dev/gpio/digital_input_*"
 
 do_install () {

@@ -16,7 +16,6 @@ USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "simple-upnpd"
 USERADD_PARAM_${PN} = "--no-create-home --shell /bin/false -g simple-upnpd simple-upnpd"
 
-DAEMONTOOLS_SERVICE_DIR = "${bindir}/service"
 DAEMONTOOLS_RUN = "${bindir}/start-simple-upnpd"
 
 SRC_URI = " \
