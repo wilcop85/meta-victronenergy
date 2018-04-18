@@ -69,6 +69,7 @@ RDEPENDS_${PN} += "\
 	python-pyserial \
 	rsync \
 	screen \
+	signalk-server \
 	socat \
 	strace \
 	sysctl-conf \
