@@ -1,0 +1,35 @@
+From f5577f26d692cd9eb76f844ac2005401fe9e03db Mon Sep 17 00:00:00 2001
+From: Mans Rullgard <mans@mansr.com>
+Date: Fri, 4 May 2018 20:03:43 +0100
+Subject: [PATCH 6/6] avoid SIGPIPE at end of image
+
+If the update thread closes the data socket before the downloader
+has written the trailing padding in the archive, SIGPIPE is raised
+and the process terminates.  Avoid this by using send() with the
+MSG_NOSIGNAL flag.  If the send() call results in EPIPE or ECONNRESET,
+report all data as written since this isn't actually an error condition.
+Real errors are reported by the receiving thread.
+---
+ ipc/network_ipc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/ipc/network_ipc.c b/ipc/network_ipc.c
+index 0564ee7147c6..9144b7dd6676 100644
+--- a/ipc/network_ipc.c
++++ b/ipc/network_ipc.c
+@@ -153,8 +153,10 @@ int ipc_send_data(int connfd, char *buf, int size)
+ {
+ 	ssize_t ret;
+ 
+-	ret = write(connfd, buf, (size_t)size);
+-	if (ret != size) {
++	ret = send(connfd, buf, (size_t)size, MSG_NOSIGNAL);
++	if (ret == -1 && (errno == EPIPE || errno == ECONNRESET)) {
++		return size;
++	} else if (ret != size) {
+ 		return -1;
+ 	}
+ 
+-- 
+2.17.0
+

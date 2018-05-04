@@ -11,4 +11,5 @@ SRC_URI += "\
 	file://0003-Callers-of-copyfile-must-close-the-output-descriptor.patch \
 	file://0004-core-util-add-ustrtoull.patch \
 	file://0005-copyfile-add-new-property-to-handle-offset-for-raw-h.patch \
+	file://0006-avoid-SIGPIPE-at-end-of-image.patch \
 "
