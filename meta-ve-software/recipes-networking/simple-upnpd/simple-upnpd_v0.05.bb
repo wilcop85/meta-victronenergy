@@ -10,14 +10,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 S = "${WORKDIR}/git"
 
-inherit daemontools useradd
+inherit daemontools useradd ve_package
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "simple-upnpd"
 USERADD_PARAM_${PN} = "--no-create-home --shell /bin/false -g simple-upnpd simple-upnpd"
 
 DAEMONTOOLS_SERVICE_DIR = "${bindir}/service"
-DAEMONTOOLS_RUN = "${base_bindir}/start-simple-upnpd"
+DAEMONTOOLS_RUN = "${bindir}/start-simple-upnpd"
 
 SRC_URI = " \
 	git://github.com/victronenergy/simple-upnpd.git;protocol=https;tag=${PV} \
@@ -26,9 +26,9 @@ SRC_URI = " \
 "
 
 do_install() {
-	install -d ${D}/${base_bindir} ${D}${sysconfdir}/init.d
+	install -d ${D}/${bindir} ${D}${sysconfdir}/init.d
 
-	install -m 0755 ${S}/simple-upnpd ${D}/${base_bindir}
+	install -m 0755 ${S}/simple-upnpd ${D}/${bindir}
 	install -m 0755 ${WORKDIR}/simple-upnpd.skeleton.xml ${D}/${sysconfdir}
-	install -m 0755 ${WORKDIR}/start-simple-upnpd ${D}${base_bindir}
+	install -m 0755 ${WORKDIR}/start-simple-upnpd ${D}${bindir}
 }
